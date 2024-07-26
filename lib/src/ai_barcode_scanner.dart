@@ -9,6 +9,8 @@ import 'overlay.dart';
 
 /// Barcode scanner widget
 class AiBarcodeScanner extends StatefulWidget {
+  final String title;
+
   /// Fit to screen
   final BoxFit fit;
 
@@ -200,6 +202,7 @@ class AiBarcodeScanner extends StatefulWidget {
   final List<Widget>? actions;
   const AiBarcodeScanner({
     super.key,
+    this.title = 'Camera',
     this.fit = BoxFit.cover,
     this.controller,
     this.borderColor,
@@ -253,6 +256,10 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
     controller = widget.controller ?? MobileScannerController();
     _cutOutBottomOffset = widget.cutOutBottomOffset;
     super.initState();
@@ -260,6 +267,10 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     controller.dispose();
     widget.controller?.dispose();
     widget.onDispose?.call();
@@ -268,38 +279,46 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    // Removed to set screen in horizon position
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     return Scaffold(
-      appBar: widget.appBarBuilder?.call(context, controller) ??
-          AppBar(
-            backgroundColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            elevation: 0,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.cameraswitch_rounded),
-                onPressed: controller.switchCamera,
-              ),
-              IconButton(
-                icon: controller.torchEnabled
-                    ? const Icon(Icons.flashlight_off_rounded)
-                    : const Icon(Icons.flashlight_on_rounded),
-                onPressed: controller.toggleTorch,
-              ),
-              if (!widget.hideGalleryIcon)
-                GalleryButton.icon(
-                  onImagePick: widget.onImagePick,
-                  onDetect: widget.onDetect,
-                  validator: widget.validator,
-                  controller: controller,
-                  isSuccess: _isSuccess,
-                ),
-              ...?widget.actions,
-            ],
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(widget.title),
+      ),
+      // appBar: widget.appBarBuilder?.call(context, controller) ??
+      //     AppBar(
+      //       backgroundColor: Colors.transparent,
+      //       foregroundColor: Colors.white,
+      //       elevation: 0,
+      //       actions: [
+      //         IconButton(
+      //           icon: const Icon(Icons.cameraswitch_rounded),
+      //           onPressed: controller.switchCamera,
+      //         ),
+      //         IconButton(
+      //           icon: controller.torchEnabled
+      //               ? const Icon(Icons.flashlight_off_rounded)
+      //               : const Icon(Icons.flashlight_on_rounded),
+      //           onPressed: controller.toggleTorch,
+      //         ),
+      //         if (!widget.hideGalleryIcon)
+      //           GalleryButton.icon(
+      //             onImagePick: widget.onImagePick,
+      //             onDetect: widget.onDetect,
+      //             validator: widget.validator,
+      //             controller: controller,
+      //             isSuccess: _isSuccess,
+      //           ),
+      //         ...?widget.actions,
+      //       ],
+      //     ),
       extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
       bottomSheet: widget.bottomSheetBuilder?.call(context, controller) ??
           DraggableSheet(

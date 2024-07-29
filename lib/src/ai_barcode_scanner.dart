@@ -330,7 +330,7 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
       body: Stack(
         children: [
           RotatedBox(
-            quarterTurns: 5,
+            quarterTurns: 3,
             child: MobileScanner(
               onDetect: onDetect,
               controller: controller,

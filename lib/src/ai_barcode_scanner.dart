@@ -256,10 +256,10 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeRight,
+    //   DeviceOrientation.landscapeLeft,
+    // ]);
     controller = widget.controller ?? MobileScannerController();
     _cutOutBottomOffset = widget.cutOutBottomOffset;
     super.initState();
@@ -267,10 +267,10 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     controller.dispose();
     widget.controller?.dispose();
     widget.onDispose?.call();
@@ -284,112 +284,115 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
     //   DeviceOrientation.portraitUp,
     //   DeviceOrientation.portraitDown,
     // ]);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(widget.title),
-      ),
-      // appBar: widget.appBarBuilder?.call(context, controller) ??
-      //     AppBar(
-      //       backgroundColor: Colors.transparent,
-      //       foregroundColor: Colors.white,
-      //       elevation: 0,
-      //       actions: [
-      //         IconButton(
-      //           icon: const Icon(Icons.cameraswitch_rounded),
-      //           onPressed: controller.switchCamera,
-      //         ),
-      //         IconButton(
-      //           icon: controller.torchEnabled
-      //               ? const Icon(Icons.flashlight_off_rounded)
-      //               : const Icon(Icons.flashlight_on_rounded),
-      //           onPressed: controller.toggleTorch,
-      //         ),
-      //         if (!widget.hideGalleryIcon)
-      //           GalleryButton.icon(
-      //             onImagePick: widget.onImagePick,
-      //             onDetect: widget.onDetect,
-      //             validator: widget.validator,
-      //             controller: controller,
-      //             isSuccess: _isSuccess,
-      //           ),
-      //         ...?widget.actions,
-      //       ],
-      //     ),
-      extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-      bottomSheet: widget.bottomSheetBuilder?.call(context, controller) ??
-          DraggableSheet(
-            title: widget.sheetTitle,
-            hideDragHandler: widget.hideSheetDragHandler,
-            hideTitle: widget.hideSheetTitle,
-            child: widget.sheetChild,
-          ),
-      body: Stack(
-        children: [
-          MobileScanner(
-            onDetect: onDetect,
-            controller: controller,
-            fit: widget.fit,
-            errorBuilder:
-                widget.errorBuilder ?? (_, error, ___) => const ErrorBuilder(),
-            placeholderBuilder: widget.placeholderBuilder,
-            scanWindow: widget.scanWindow,
-            key: widget.key,
-            overlayBuilder: widget.overlayBuilder,
-            scanWindowUpdateThreshold: widget.scanWindowUpdateThreshold,
-          ),
-          ValueListenableBuilder<bool?>(
-            valueListenable: _isSuccess,
-            builder: (context, isSuccess, __) {
-              return widget.customOverlayBuilder
-                      ?.call(context, isSuccess, controller) ??
-                  Container(
-                    decoration: ShapeDecoration(
-                      shape: OverlayShape(
-                        borderRadius: widget.borderRadius,
-                        borderColor:
-                            ((isSuccess ?? false) && widget.showSuccess)
-                                ? widget.successColor
-                                : (!(isSuccess ?? true) && widget.showError)
-                                    ? widget.errorColor
-                                    : widget.borderColor ?? Colors.white,
-                        borderLength: widget.borderLength,
-                        borderWidth: widget.borderWidth,
-                        cutOutSize: widget.cutOutSize,
-                        cutOutBottomOffset: _cutOutBottomOffset,
-                        cutOutWidth: widget.cutOutWidth,
-                        cutOutHeight: widget.cutOutHeight,
-                        overlayColor:
-                            ((isSuccess ?? false) && widget.showSuccess)
-                                ? widget.successColor.withOpacity(0.4)
-                                : (!(isSuccess ?? true) && widget.showError)
-                                    ? widget.errorColor.withOpacity(0.4)
-                                    : widget.overlayColor,
-                      ),
-                    ),
-                  );
-            },
-          ),
-          if (!widget.hideGalleryButton)
-            Align(
-              alignment: widget.galleryButtonAlignment ??
-                  Alignment.lerp(
-                    Alignment.bottomCenter,
-                    Alignment.center,
-                    0.75,
-                  )!,
-              child: GalleryButton(
-                onImagePick: widget.onImagePick,
-                onDetect: widget.onDetect,
-                validator: widget.validator,
-                controller: controller,
-                isSuccess: _isSuccess,
-              ),
+    return RotatedBox(
+      quarterTurns: 5,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(widget.title),
+        ),
+        // appBar: widget.appBarBuilder?.call(context, controller) ??
+        //     AppBar(
+        //       backgroundColor: Colors.transparent,
+        //       foregroundColor: Colors.white,
+        //       elevation: 0,
+        //       actions: [
+        //         IconButton(
+        //           icon: const Icon(Icons.cameraswitch_rounded),
+        //           onPressed: controller.switchCamera,
+        //         ),
+        //         IconButton(
+        //           icon: controller.torchEnabled
+        //               ? const Icon(Icons.flashlight_off_rounded)
+        //               : const Icon(Icons.flashlight_on_rounded),
+        //           onPressed: controller.toggleTorch,
+        //         ),
+        //         if (!widget.hideGalleryIcon)
+        //           GalleryButton.icon(
+        //             onImagePick: widget.onImagePick,
+        //             onDetect: widget.onDetect,
+        //             validator: widget.validator,
+        //             controller: controller,
+        //             isSuccess: _isSuccess,
+        //           ),
+        //         ...?widget.actions,
+        //       ],
+        //     ),
+        extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+        bottomSheet: widget.bottomSheetBuilder?.call(context, controller) ??
+            DraggableSheet(
+              title: widget.sheetTitle,
+              hideDragHandler: widget.hideSheetDragHandler,
+              hideTitle: widget.hideSheetTitle,
+              child: widget.sheetChild,
             ),
-        ],
+        body: Stack(
+          children: [
+            MobileScanner(
+              onDetect: onDetect,
+              controller: controller,
+              fit: widget.fit,
+              errorBuilder: widget.errorBuilder ??
+                  (_, error, ___) => const ErrorBuilder(),
+              placeholderBuilder: widget.placeholderBuilder,
+              scanWindow: widget.scanWindow,
+              key: widget.key,
+              overlayBuilder: widget.overlayBuilder,
+              scanWindowUpdateThreshold: widget.scanWindowUpdateThreshold,
+            ),
+            ValueListenableBuilder<bool?>(
+              valueListenable: _isSuccess,
+              builder: (context, isSuccess, __) {
+                return widget.customOverlayBuilder
+                        ?.call(context, isSuccess, controller) ??
+                    Container(
+                      decoration: ShapeDecoration(
+                        shape: OverlayShape(
+                          borderRadius: widget.borderRadius,
+                          borderColor:
+                              ((isSuccess ?? false) && widget.showSuccess)
+                                  ? widget.successColor
+                                  : (!(isSuccess ?? true) && widget.showError)
+                                      ? widget.errorColor
+                                      : widget.borderColor ?? Colors.white,
+                          borderLength: widget.borderLength,
+                          borderWidth: widget.borderWidth,
+                          cutOutSize: widget.cutOutSize,
+                          cutOutBottomOffset: _cutOutBottomOffset,
+                          cutOutWidth: widget.cutOutWidth,
+                          cutOutHeight: widget.cutOutHeight,
+                          overlayColor:
+                              ((isSuccess ?? false) && widget.showSuccess)
+                                  ? widget.successColor.withOpacity(0.4)
+                                  : (!(isSuccess ?? true) && widget.showError)
+                                      ? widget.errorColor.withOpacity(0.4)
+                                      : widget.overlayColor,
+                        ),
+                      ),
+                    );
+              },
+            ),
+            if (!widget.hideGalleryButton)
+              Align(
+                alignment: widget.galleryButtonAlignment ??
+                    Alignment.lerp(
+                      Alignment.bottomCenter,
+                      Alignment.center,
+                      0.75,
+                    )!,
+                child: GalleryButton(
+                  onImagePick: widget.onImagePick,
+                  onDetect: widget.onDetect,
+                  validator: widget.validator,
+                  controller: controller,
+                  isSuccess: _isSuccess,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -256,13 +256,13 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
   @override
   void initState() {
+    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
     controller = widget.controller ?? MobileScannerController();
     _cutOutBottomOffset = widget.cutOutBottomOffset;
-    super.initState();
   }
 
   @override
@@ -329,17 +329,20 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
           ),
       body: Stack(
         children: [
-          MobileScanner(
-            onDetect: onDetect,
-            controller: controller,
-            fit: widget.fit,
-            errorBuilder:
-                widget.errorBuilder ?? (_, error, ___) => const ErrorBuilder(),
-            placeholderBuilder: widget.placeholderBuilder,
-            scanWindow: widget.scanWindow,
-            key: widget.key,
-            overlayBuilder: widget.overlayBuilder,
-            scanWindowUpdateThreshold: widget.scanWindowUpdateThreshold,
+          RotatedBox(
+            quarterTurns: 5,
+            child: MobileScanner(
+              onDetect: onDetect,
+              controller: controller,
+              fit: widget.fit,
+              errorBuilder: widget.errorBuilder ??
+                  (_, error, ___) => const ErrorBuilder(),
+              placeholderBuilder: widget.placeholderBuilder,
+              scanWindow: widget.scanWindow,
+              key: widget.key,
+              overlayBuilder: widget.overlayBuilder,
+              scanWindowUpdateThreshold: widget.scanWindowUpdateThreshold,
+            ),
           ),
           ValueListenableBuilder<bool?>(
             valueListenable: _isSuccess,

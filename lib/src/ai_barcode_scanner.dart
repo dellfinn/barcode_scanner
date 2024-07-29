@@ -256,10 +256,10 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
   @override
   void initState() {
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.landscapeRight,
-    //   DeviceOrientation.landscapeLeft,
-    // ]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
     controller = widget.controller ?? MobileScannerController();
     _cutOutBottomOffset = widget.cutOutBottomOffset;
     super.initState();
@@ -267,10 +267,10 @@ class _AiBarcodeScannerState extends State<AiBarcodeScanner> {
 
   @override
   void dispose() {
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     controller.dispose();
     widget.controller?.dispose();
     widget.onDispose?.call();
